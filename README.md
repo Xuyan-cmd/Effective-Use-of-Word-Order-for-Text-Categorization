@@ -1,102 +1,95 @@
-#  Where's the Question? A Multi-channel Deep Convolutional Neural Network for Question Identification in Textual Data
+#  👨‍💻运用卷积神经网络使用词序进行文本分类
 
-(accepted paper in [The 3rd Clinical Natural Language Processing Workshop](https://clinical-nlp.github.io/2020/))
+## 💡关于
 
-## General info
-This is the code that was used of the paper : Where's the Question? A Multi-channel Deep Convolutional Neural Network for Question Identification in Textual Data where we created a multi-channel convolutional neural network for the seperation of sentences to question, not-questions and *c-questions* questions referring to an issue mentioned in a nearby sentence (e.g.,  can you clarify this?)
+本项目使用 python 3.10 和 PyTorch 0.4.1 创建
 
-## Technologies
-This project was created with python 3.7 and PyTorch 0.4.1
+## 📜数据集和使用模型
 
-## Models
-We provide code of the following models:
-- [Quest_CNN](neural_network/quest_cnn): code for Where's the Question? A Multi-channel Deep Convolutional Neural Network for Question Identification in Textual Data
-- [KIM_CNN](neural_network/kim_cnn):  [Convolutional Neural Networks for Sentence Classification](https://arxiv.org/pdf/1408.5882.pdf)
-- [XML_CNN](neural_network/xml_cnn): [Deep Learning for Extreme Multi-label Text Classification](http://nyc.lti.cs.cmu.edu/yiming/Publications/jliu-sigir17.pdf)
-- [Seq_cnn](neural_network/seq_cnn):[Effective Use of Word Order for Text Categorization with Convolutional Neural Networks](https://arxiv.org/pdf/1412.1058.pdf)
-- [FastText](neural_network/FastText):[Bag of Tricks for Efficient Text Classification](https://arxiv.org/pdf/1607.01759.pdf)
-- [CHAR_CNN](neural_network/char_cnn):[Character-level Convolutional Network ](https://arxiv.org/pdf/1509.01626.pdf)
-- [Bi_LSTM](neural_network/bi_lstm): a bi-lstm implementation which is equivalent of the **quest-cnn** in the paper Where's the Question? A Multi-channel Deep Convolutional Neural Network for Question Identification in Textual Data
+- [Quest_CNN](https://github.com/Xuyan-cmd/Effective-Use-of-Word-Order-for-Text-Categorization/tree/main/neural_network/quest_cnn)：用于文本数据中问题识别的多通道深度卷积神经网络
+- [KIM_CNN](https://github.com/Xuyan-cmd/Effective-Use-of-Word-Order-for-Text-Categorization/tree/main/neural_network/kim_cnn)： 用于句子分类的卷积神经网络
+- [XML_CNN](https://github.com/Xuyan-cmd/Effective-Use-of-Word-Order-for-Text-Categorization/tree/main/neural_network/xml_cnn)：极端多标签文本分类的深度学习
+- [Seq_cnn](https://github.com/Xuyan-cmd/Effective-Use-of-Word-Order-for-Text-Categorization/tree/main/neural_network/seq_cnn)：使用卷积神经网络有效使用词序进行文本分类
+- [FastText](https://github.com/Xuyan-cmd/Effective-Use-of-Word-Order-for-Text-Categorization/tree/main/neural_network/FastText)：高效文本分类的技巧包
+- [CHAR_CNN](https://github.com/Xuyan-cmd/Effective-Use-of-Word-Order-for-Text-Categorization/tree/main/neural_network/char_cnn) :字符级卷积网络
 
-For each model, we provide additional README in the folder with directions about how to run each model
+对于每个模型，我在文件夹中提供了额外的自述文件，包含有关如何运行每个模型的说明
 
-## Setup
-We recommend installing and running the code from within a virtual environment.
+## 🚀快速上手
 
-### Creating a Conda Virtual Environment
-First, download Anaconda  from this [link](https://www.anaconda.com/distribution/)
+### 提示
 
-Second, create a conda environment with python 3.7.
+建议在虚拟环境中安装和运行代码。
+
+### 创建 Conda 虚拟环境
+
+首先，从此[链接下载 Anaconda](https://www.anaconda.com/distribution/)
+
+其次，用python 3.10创建一个conda环境。
+
+```javascript
+$ conda create -n cnn37 python=3.10
 ```
-$ conda create -n cnn37 python=3.7
-```
-Upon  restarting your terminal session, you can activate the conda environment:
-```
+重新启动终端会话后，你可以激活 conda 环境：
+```javascript
 $ conda activate cnn37
 ```
-### Install the required python packages
-In the project root directory, run the following to install the required packages.
-```
+### 安装所需的python包
+
+在项目根目录下，运行以下命令安装所需的包。
+
+```javascript
 pip install -r requirements.txt
 ```
-Finally, the stopwords from the NLTK library need to be download:
-```
+
+最后，需要下载 NLTK 库中的停用词：
+
+```javascript
 python
 import nltk
 nltk.download()
 ```
- 
 
+### 下载预训练嵌入
 
-### Dowload pre-trained embeddings
-1. Google pre-trained embeddings
+**谷歌预训练嵌入**
 
-In order to use pre-trained embeddings for the word embeddings (or the semantic embeddings), you need to dowload GoogleNews-vectors-negative300.bin.gz into the folder *embedding_input/google_embedding*
+为了对词嵌入（或语义嵌入）使用预训练嵌入，需要将 `GoogleNews-vectors-negative300.bin.gz` 下载到文件夹*`embedding_input/google_embedding`*
 
-An easy way for dowloading is by:
 ```
 wget -c "https://s3.amazonaws.com/dl4j-distribution/GoogleNews-vectors-negative300.bin.gz"
 ```
-2. Mimic pre-trained embeddings
 
-Unfortunately, we cannot provide the embeddings of the MIMIC III dataset as training course is mandatory in order to access the particular dataset but the code can be still executed by only using the Google embeddings.
+### 参数调整
 
-However, we provide the code for the creation of the mimic embeeding in the [file](https://github.com/gmichalo/question_identification_on_medical_logs/blob/master/embedding_input/mimic_embedding/mimic.py) which will require the NOTEEVENTS.csv from the MIMIC III dataset
+为了调整每个模型的超参数，你需要创建一个 json 文件，例如*`search_spaces/cnn.json`*文件并将其添加到*`search_spaces/`*
 
-### Extracting questions and  creation of   features of the deep neural network models
+之后，运行：
 
-In the **preprocessing** folder, we provide code and instruction about how to extract potential question and the creation of all the features of the deep neural network models
-## Running code
-### Hyperpameter tuning
-In order to tune the hyperpameter of each model you need to create a json file like the file the *search_spaces/cnn.json* and add it to *search_spaces/*
-
-Afterwards, run:
-
-```
+```javascript
 python3 param_json.py --model_name "model_name"  -fn "results_file_name" - -jf "search_spaces/model.json" -st search_trials
 ```
 
-The end results will be saved in *dataset_output/hyperpameters/* and it will create three files:
-* results_file_name.csv : contains all the final F1 scores for each search trial
-* results_file_name.json : contains the best hyper-parameters for the model
-* results_file_name_param.csv : number of parameters of the model
+最终结果将保存在*dataset_output/hyperpameters/*中，它将创建三个文件：
 
-### Running model
-In order to run any model firstly you need to add the file that contains the sentences in question in *dataset_input/*.
-This files need to have at least two collumns (sentences, label) but in order to use more features it needs additional columns (like pos-tag, medical-terms, ...)
+- `results_file_name.csv` ：包含每个搜索试验的所有最终 F1 分数
+- `results_file_name.json` ：包含模型的最佳超参数
+- `results_file_name_param.csv` ：模型的参数数量
 
-Afterwards, run:
+之后，运行：
 
-```
+```javascript
 python3 main_iterations.py --model_name "model_name"  -fn "results_file_name"
 ```
-The end results will be saved in *dataset_output/results/* and it will create two files:
-* results_file_name.csv : contains all the results for each seed, the mean and standard deviation for the testing set
-* results_file_name_val.csv : contains all the results for each seed, the mean and standard deviation for the validation set
 
-In order to see all the parameters can be changed for additional experiments:
+最终结果将保存在*`dataset_output/results/`*中，它将创建两个文件：
 
-```
+- `results_file_name.csv` ：包含每种子的所有结果，测试集的均值和标准差
+- `results_file_name_val.csv` ：包含每种子的所有结果，试验集的均值和标准差
+
+为了查看可以更改的所有参数以进行其他实验：
+
+```javascript
 python main_iterations.py -help
  
 
@@ -178,3 +171,11 @@ optional arguments:
                         name of the column that contain questions
   -qml QUESTION_NAME_LABEL, --question_name_label QUESTION_NAME_LABEL
 ```
+
+
+
+
+
+
+
+
